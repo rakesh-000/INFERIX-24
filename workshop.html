@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.js"></script>  
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css">
+    <title>INFIRIX  24</title>
+    <style>
+    
+      :root {
+        --card-height: 40vw;
+        --card-margin: 4vw;
+        --card-top-offset: 1em;
+        --numcards: 4;
+        --outline-width: 0px;
+    }
+    
+    #cards {
+        padding-bottom: calc(var(--numcards) * var(--card-top-offset));
+        margin-bottom: var(--card-margin);
+    }
+    
+    .card {
+        position: sticky;
+        top: 0;
+        padding-top: var(--card-top-offset);
+        transform-origin: 50% 0%;
+        will-change: transform;
+    }
+    
+    #debug {
+        position: fixed;
+        top: 1em;
+        left: 1em;
+    }
+    #debug::after {
+        content: " Show Debug";
+        margin-left: 1.5em;
+        color: white;
+        white-space: nowrap;
+    }
+    
+    #debug:checked ~ main {
+        --outline-width: 1px;
+    }
+    
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Raleway', sans-serif;
+    }
+    
+    body {
+      background: #000000; /* white to black gradient */
+      color: #000000; /* Text color remains white */
+      text-align: center;
+      font-size: calc(1em + 0.5vw);
+  }
+  
+    
+    header,
+    main {
+        width: 80vw;
+        margin: 0 auto;
+    }
+    
+    header {
+        height: 100vh;
+        display: grid;
+        place-items: center;
+    }
+    
+    #cards {
+        list-style: none;
+        outline: calc(var(--outline-width) * 10) solid red; /* Changed to red */
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(var(--numcards), var(--card-height));
+        gap: var(--card-margin);
+    }
+    
+    .card {
+        outline: var(--outline-width) solid red; /* Changed to red */
+    }
+    
+    .card__content {
+        box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.1), 0 1em 2em rgba(0, 0, 0, 0.1);
+        background: #ffffff; /* White background */
+        color: #000000; /* Black text */
+        border-radius: 1em;
+        overflow: hidden;
+        display: grid;
+        grid-template-areas: "text img";
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        align-items: stretch;
+        outline: var(--outline-width) solid red; /* Changed to red */
+    }
+    
+    .card__content > div {
+        grid-area: text;
+        width: 80%;
+        place-self: center;
+        text-align: left;
+        display: grid;
+        gap: 1em;
+        place-items: start;
+    }
+    
+    .card__content > figure {
+        grid-area: img;
+        overflow: hidden;
+    }
+    
+    .card__content > figure > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    h1 {
+        font-family: "Russo One", sans-serif;
+        font-weight: 300;
+        font-size: 3.5em;
+    }
+    
+    h2 {
+        font-family: "Russo One", sans-serif;
+        font-weight: 300;
+        font-size: 2.5em;
+    }
+    
+    p {
+        font-family: 'Raleway', sans-serif;
+        font-weight: 300;
+        line-height: 1.42;
+    }
+    
+    .btn {
+        background: #ff0000; /* Changed to red */
+        color: #ffffff; /* White text */
+        text-decoration: none;
+        display: inline-block;
+        padding: 0.5em;
+        border-radius: 0.25em;
+    }
+    
+    aside {
+        width: 50vw;
+        margin: 0 auto;
+        text-align: left;
+    }
+    
+    aside p {
+        margin-bottom: 1em;
+    }
+    
+    #logo_image {
+        position: relative;
+        left: -45px;
+        height: 300px;
+    }
+    
+    a {
+        color: #ffffff; /* White text */
+        text-decoration: none;
+    }
+    
+    .primary-btn {
+        background-image: -moz-linear-gradient(0deg, #ff0000 0%, #000000 100%); /* Red to Black */
+        background-image: -webkit-linear-gradient(0deg, #ff0000 0%, #000000 100%);
+        background-image: -ms-linear-gradient(0deg, #ff0000 0%, #000000 100%);
+        color: #ffffff; /* White text */
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: all 0.3s ease 0s;
+    }
+    
+    .primary-btn:hover {
+        background: transparent;
+        color: #ff0000; /* Red on hover */
+        border: 1px solid #ff0000; /* Red border */
+    }
+    
+    @media (max-width: 500px) {
+        header {
+            text-align: center;
+        }
+    
+        #logo_image {
+            left: 0;
+            margin: 0 auto;
+            height: 150px;
+        }
+    
+        #cards {
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(var(--numcards), auto);
+            gap: 20px;
+        }
+    
+        .card__content {
+            display: block;
+            text-align: center;
+            padding: 1em;
+        }
+    
+        .card__content > div {
+            width: 100%;
+            text-align: center;
+            padding: 1em;
+        }
+    
+        .card__content > figure {
+            display: none;
+        }
+    
+        h1 {
+            font-size: 2em;
+        }
+    
+        h2 {
+            font-size: 1.5em;
+        }
+    
+        p {
+            font-size: 1em;
+        }
+    
+        .fancybox-slide {
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+    
+        .fancybox-slide img {
+            margin: 0 auto;
+        }
+    
+        .fancybox-content {
+            max-width: 100%;
+        }
+    
+        .card__content > figure {
+            display: block;
+        }
+    
+        .card__content > div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        .card__content > div .btn {
+            margin-top: 10px;
+        }
+    }
+    
+      </style>
+  </head>
+  <body>
+    <header>
+    
+    <main>
+      <ul id="cards">
+        <li class="card" id="card_1">
+          <div class="card__content">
+            <div>
+              <h2>WORKSHOP</h2>
+              <p>Learn the fundamentals of ML algorithms, explore real-world applications, and gain hands-on experience in building predictive models. This workshop offers a comprehensive learning journey, catering to all levels of expertise.</p>
+              <a data-fancybox="gallery" class="btn btn--accent" href="Cards_images/TECHNICAL WORKSHOP (1).png">BROCHURE</a>
+            </div>
+            <figure>
+              <img
+                src="https://cdn.pixabay.com/photo/2023/05/24/17/48/ai-generated-8015423_1280.jpg"
+                alt="Image description"
+              />
+            </figure>
+          </div>
+        </li>
+        <!--  -->
+      </ul>
+    </main>
+    <!-- <aside>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem repellat
+        non ratione eum provident quaerat obcaecati dicta autem voluptates sit
+        cum quis distinctio, atque sint commodi reprehenderit perspiciatis iure
+        velit molestiae eos molestias ipsa nihil quia? Porro tempore in fugit,
+        aspernatur et temporibus aliquam magnam adipisci deleniti dicta repellat
+        alias nostrum impedit quidem odit excepturi nam. Itaque numquam unde
+        quae dignissimos exercitationem placeat, ipsa amet tempora vitae ullam
+        animi! Hic asperiores in esse atque expedita dolorem officia illo
+        commodi fugit earum ab, assumenda optio, sed repellat. Maiores
+        laudantium reprehenderit suscipit accusamus assumenda, debitis nemo ut
+        sapiente numquam doloremque alias explicabo minus autem harum illum
+        dicta. Unde obcaecati inventore repellat id eligendi eaque, rerum
+        aliquam maiores aspernatur cumque tenetur quo qui mollitia atque quasi
+        voluptate ipsum neque explicabo voluptatem quibusdam beatae quae iste
+        vero doloribus! Natus libero quibusdam molestias harum atque, assumenda
+        doloribus quis, quam corporis, voluptas suscipit magni! Enim sapiente
+        totam consequatur repellat maxime placeat perferendis iste maiores
+        soluta, obcaecati incidunt expedita eius cumque ipsa quo sed. Minus
+        distinctio culpa cumque labore nulla laborum ex, explicabo magni
+        mollitia eaque aliquam vero blanditiis quae, id necessitatibus error
+        voluptas harum tempora sint porro. Facilis beatae quasi soluta et ipsum
+        suscipit repellendus inventore.
+      </p>
+
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus,
+        ipsam molestias. Fuga similique, dolor tempora rerum perferendis ipsam
+        ullam doloribus beatae esse facilis quae sit excepturi expedita non,
+        sunt accusantium magnam? Animi nesciunt nostrum eligendi iusto
+        voluptatum hic qui. Quod distinctio qui nobis et doloremque. Fuga,
+        itaque? Laborum dignissimos nobis quaerat optio voluptatum similique
+        unde, neque cupiditate, vel, fugiat dolore? Accusantium neque deserunt
+        ducimus enim, illum laborum magni ipsam eos optio aspernatur nam
+        necessitatibus quod natus, dolor laboriosam illo velit.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem repellat
+        non ratione eum provident quaerat obcaecati dicta autem voluptates sit
+        cum quis distinctio, atque sint commodi reprehenderit perspiciatis iure
+        velit molestiae eos molestias ipsa nihil quia? Porro tempore in fugit,
+        aspernatur et temporibus aliquam magnam adipisci deleniti dicta repellat
+        alias nostrum impedit quidem odit excepturi nam. Itaque numquam unde
+        quae dignissimos exercitationem placeat, ipsa amet tempora vitae ullam
+        animi! Hic asperiores in esse atque expedita dolorem officia illo
+        commodi fugit earum ab, assumenda optio, sed repellat. Maiores
+        laudantium reprehenderit suscipit accusamus assumenda, debitis nemo ut
+        sapiente numquam doloremque alias explicabo minus autem harum illum
+        dicta. Unde obcaecati inventore repellat id eligendi eaque, rerum
+        aliquam maiores aspernatur cumque tenetur quo qui mollitia atque quasi
+        voluptate ipsum neque explicabo voluptatem quibusdam beatae quae iste
+        vero doloribus! Natus libero quibusdam molestias harum atque, assumenda
+        doloribus quis, quam corporis, voluptas suscipit magni! Enim sapiente
+        totam consequatur repellat maxime placeat perferendis iste maiores
+        soluta, obcaecati incidunt expedita eius cumque ipsa quo sed. Minus
+        distinctio culpa cumque labore nulla laborum ex, explicabo magni
+        mollitia eaque aliquam vero blanditiis quae, id necessitatibus error
+        voluptas harum tempora sint porro. Facilis beatae quasi soluta et ipsum
+        suscipit repellendus inventore.
+      </p>
+
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus,
+        ipsam molestias. Fuga similique, dolor tempora rerum perferendis ipsam
+        ullam doloribus beatae esse facilis quae sit excepturi expedita non,
+        sunt accusantium magnam? Animi nesciunt nostrum eligendi iusto
+        voluptatum hic qui. Quod distinctio qui nobis et doloremque. Fuga,
+        itaque? Laborum dignissimos nobis quaerat optio voluptatum similique
+        unde, neque cupiditate, vel, fugiat dolore? Accusantium neque deserunt
+        ducimus enim, illum laborum magni ipsam eos optio aspernatur nam
+        necessitatibus quod natus, dolor laboriosam illo velit.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem repellat
+        non ratione eum provident quaerat obcaecati dicta autem voluptates sit
+        cum quis distinctio, atque sint commodi reprehenderit perspiciatis iure
+        velit molestiae eos molestias ipsa nihil quia? Porro tempore in fugit,
+        aspernatur et temporibus aliquam magnam adipisci deleniti dicta repellat
+        alias nostrum impedit quidem odit excepturi nam. Itaque numquam unde
+        quae dignissimos exercitationem placeat, ipsa amet tempora vitae ullam
+        animi! Hic asperiores in esse atque expedita dolorem officia illo
+        commodi fugit earum ab, assumenda optio, sed repellat. Maiores
+        laudantium reprehenderit suscipit accusamus assumenda, debitis nemo ut
+        sapiente numquam doloremque alias explicabo minus autem harum illum
+        dicta. Unde obcaecati inventore repellat id eligendi eaque, rerum
+        aliquam maiores aspernatur cumque tenetur quo qui mollitia atque quasi
+        voluptate ipsum neque explicabo voluptatem quibusdam beatae quae iste
+        vero doloribus! Natus libero quibusdam molestias harum atque, assumenda
+        doloribus quis, quam corporis, voluptas suscipit magni! Enim sapiente
+        totam consequatur repellat maxime placeat perferendis iste maiores
+        soluta, obcaecati incidunt expedita eius cumque ipsa quo sed. Minus
+        distinctio culpa cumque labore nulla laborum ex, explicabo magni
+        mollitia eaque aliquam vero blanditiis quae, id necessitatibus error
+        voluptas harum tempora sint porro. Facilis beatae quasi soluta et ipsum
+        suscipit repellendus inventore.
+      </p>
+
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus,
+        ipsam molestias. Fuga similique, dolor tempora rerum perferendis ipsam
+        ullam doloribus beatae esse facilis quae sit excepturi expedita non,
+        sunt accusantium magnam? Animi nesciunt nostrum eligendi iusto
+        voluptatum hic qui. Quod distinctio qui nobis et doloremque. Fuga,
+        itaque? Laborum dignissimos nobis quaerat optio voluptatum similique
+        unde, neque cupiditate, vel, fugiat dolore? Accusantium neque deserunt
+        ducimus enim, illum laborum magni ipsam eos optio aspernatur nam
+        necessitatibus quod natus, dolor laboriosam illo velit.
+      </p>
+    </aside> -->
+  </body>
+
+  <script>
+    // Alternative Versions:
+    // - Vanilla JS Version: https://codyhouse.co/demo-tutorials/stacking-cards/index.html
+    // - CSS @scroll-timeline: https://codepen.io/bramus/pen/PobmGme
+    // - JS ScrollTimeline Polyfill: https://codepen.io/bramus/pen/XWEeGZm
+    // - JS Motion One: https://codepen.io/bramus/pen/rNdzpZK 👈 = The version you are currently looking at
+
+    import { scroll, animate } from "https://cdn.skypack.dev/motion@10.13.1";
+c
+    const $cardsWrapper = document.querySelector("#cards");
+    const $cards = document.querySelectorAll(".card");
+
+    const numCards = $cards.length;
+
+    $cards.forEach(($card, index0) => {
+      const index = index0 + 1;
+      const reverseIndex = numCards - index0;
+      const reverseIndex0 = numCards - index;
+
+      // Extra padding per card, so you can see the other stacked cards underneath at the top
+      $card.style.paddingTop = `calc(${index} * var(--card-top-offset))`;
+
+      // Scroll-Linked Animation
+      scroll(
+        animate($card, {
+          // Earlier cards shrink more than later cards
+          scale: [1, 1 - 0.1 * reverseIndex0],
+        }),
+        {
+          // Each card should only shrink when it’s at the top.
+          // We can’t use exit on the els for this (as they are sticky)
+          // but can track $cardsWrapper instead.
+          target: $cardsWrapper,
+          offset: [
+            `${(index0 / numCards) * 100}%`,
+            `${(index / numCards) * 100}%`,
+          ],
+        }
+      );
+    });
+  </script>
+</html>
